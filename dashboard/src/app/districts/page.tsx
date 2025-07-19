@@ -242,5 +242,4 @@ export default function Districts() {
       </div>
     </div>
   );
-  );
 }

@@ -15,8 +15,7 @@ import {
   FileSpreadsheet,
 } from 'lucide-react';
 import { dashboardApi } from '@/lib/api';
-import { formatCurrency, formatDate } from '@/lib/utils';
-import type { ExpenseData } from '@/types';
+import { formatDate } from '@/lib/utils';
 
 interface Report {
   id: string;
@@ -31,7 +30,6 @@ interface Report {
 }
 
 export default function Reports() {
-  const [data, setData] = useState<ExpenseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'monthly' | 'quarterly' | 'annual' | 'custom'>('all');
@@ -43,8 +41,8 @@ export default function Reports() {
   const fetchReportsData = async () => {
     try {
       setLoading(true);
-      const latestData = await dashboardApi.getLatestData();
-      setData(latestData);
+      await dashboardApi.getLatestData();
+      // Data would be used for reports in a real implementation
     } catch (error) {
       console.error('Error fetching reports data:', error);
     } finally {

@@ -9,7 +9,6 @@ import {
   LineChart,
   PieChart,
   Calendar,
-  Filter,
   Download,
   ArrowUpRight,
   ArrowDownRight,
@@ -17,7 +16,6 @@ import {
 } from 'lucide-react';
 import { dashboardApi } from '@/lib/api';
 import { formatCurrency, formatPercentage } from '@/lib/utils';
-import type { ExpenseData } from '@/types';
 
 interface TrendData {
   period: string;
@@ -35,7 +33,6 @@ interface SectorTrend {
 }
 
 export default function Trends() {
-  const [data, setData] = useState<ExpenseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('6m');
   const [selectedMetric, setSelectedMetric] = useState('total');
@@ -47,8 +44,8 @@ export default function Trends() {
   const fetchTrendsData = async () => {
     try {
       setLoading(true);
-      const latestData = await dashboardApi.getLatestData();
-      setData(latestData);
+      await dashboardApi.getLatestData();
+      // Data would be used for trends analysis in a real implementation
     } catch (error) {
       console.error('Error fetching trends data:', error);
     } finally {
@@ -301,7 +298,7 @@ export default function Trends() {
               Monthly Breakdown
             </h3>
             <div className="space-y-3">
-              {monthlyTrends.map((trend, index) => (
+              {monthlyTrends.map((trend) => (
                 <div key={trend.period} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <div>
                     <div className="font-medium text-gray-900 text-sm sm:text-base">
@@ -332,7 +329,7 @@ export default function Trends() {
               Sector Trends
             </h3>
             <div className="space-y-4">
-              {sectorTrends.map((sector, index) => (
+              {sectorTrends.map((sector) => (
                 <div key={sector.name} className="p-3 rounded-lg hover:bg-gray-50 transition-colors">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-medium text-gray-900 text-sm sm:text-base">

@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Plus,
   Clock,
   MapPin,
-  Users,
   AlertCircle,
   CheckCircle,
   Calendar as CalendarSolid,
@@ -30,7 +28,6 @@ interface CalendarEvent {
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [view, setView] = useState<'month' | 'week' | 'day'>('month');
 
   const events: CalendarEvent[] = [
     {

@@ -11,10 +11,8 @@ import {
 } from 'lucide-react';
 import StatCard from '@/components/StatCard';
 import { dashboardApi } from '@/lib/api';
-import type { ExpenseData } from '@/types';
 
 export default function Analytics() {
-  const [data, setData] = useState<ExpenseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('30d');
 
@@ -25,8 +23,8 @@ export default function Analytics() {
   const fetchAnalyticsData = async () => {
     try {
       setLoading(true);
-      const latestData = await dashboardApi.getLatestData();
-      setData(latestData);
+      await dashboardApi.getLatestData();
+      // Data would be used for charts and analytics in a real implementation
     } catch (error) {
       console.error('Error fetching analytics data:', error);
     } finally {

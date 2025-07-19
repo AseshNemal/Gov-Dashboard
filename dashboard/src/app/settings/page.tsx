@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Settings as SettingsIcon,
   User,
   Bell,
   Shield,
@@ -12,8 +11,6 @@ import {
   Download,
   Upload,
   Save,
-  Eye,
-  EyeOff,
   Mail,
   Phone,
   Building2,
@@ -62,8 +59,6 @@ export default function Settings() {
     exportFormat: 'xlsx',
   });
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const sections: SettingsSection[] = [
     {
       id: 'profile',
@@ -97,7 +92,7 @@ export default function Settings() {
     },
   ];
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: string | number | boolean) => {
     setSettings(prev => ({
       ...prev,
       [key]: value,
@@ -116,83 +111,95 @@ export default function Settings() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
             First Name
           </label>
           <input
+            id="firstName"
             type="text"
             value={settings.firstName}
             onChange={(e) => handleSettingChange('firstName', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your first name"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
             Last Name
           </label>
           <input
+            id="lastName"
             type="text"
             value={settings.lastName}
             onChange={(e) => handleSettingChange('lastName', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your last name"
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
             Email Address
           </label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
+              id="email"
               type="email"
               value={settings.email}
               onChange={(e) => handleSettingChange('email', e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your email address"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
             Phone Number
           </label>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
+              id="phone"
               type="tel"
               value={settings.phone}
               onChange={(e) => handleSettingChange('phone', e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your phone number"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-2">
             Department
           </label>
           <div className="relative">
             <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
+              id="department"
               type="text"
               value={settings.department}
               onChange={(e) => handleSettingChange('department', e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your department"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
             Role
           </label>
           <input
+            id="role"
             type="text"
             value={settings.role}
             onChange={(e) => handleSettingChange('role', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your role"
           />
         </div>
       </div>
@@ -211,10 +218,12 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="emailNotifications"
               type="checkbox"
               checked={settings.emailNotifications}
               onChange={(e) => handleSettingChange('emailNotifications', e.target.checked)}
               className="sr-only peer"
+              title="Toggle email notifications"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
@@ -227,10 +236,12 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="smsNotifications"
               type="checkbox"
               checked={settings.smsNotifications}
               onChange={(e) => handleSettingChange('smsNotifications', e.target.checked)}
               className="sr-only peer"
+              title="Toggle SMS notifications"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
@@ -243,10 +254,12 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="budgetAlerts"
               type="checkbox"
               checked={settings.budgetAlerts}
               onChange={(e) => handleSettingChange('budgetAlerts', e.target.checked)}
               className="sr-only peer"
+              title="Toggle budget alerts"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
@@ -259,10 +272,12 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="reportReminders"
               type="checkbox"
               checked={settings.reportReminders}
               onChange={(e) => handleSettingChange('reportReminders', e.target.checked)}
               className="sr-only peer"
+              title="Toggle report reminders"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
@@ -277,13 +292,15 @@ export default function Settings() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="theme" className="block text-sm font-medium text-gray-700 mb-2">
             Theme
           </label>
           <select
+            id="theme"
             value={settings.theme}
             onChange={(e) => handleSettingChange('theme', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select theme preference"
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -292,13 +309,15 @@ export default function Settings() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
             Language
           </label>
           <select
+            id="language"
             value={settings.language}
             onChange={(e) => handleSettingChange('language', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select language preference"
           >
             <option value="en">English</option>
             <option value="si">Sinhala</option>
@@ -307,13 +326,15 @@ export default function Settings() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="currency" className="block text-sm font-medium text-gray-700 mb-2">
             Currency
           </label>
           <select
+            id="currency"
             value={settings.currency}
             onChange={(e) => handleSettingChange('currency', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select currency preference"
           >
             <option value="LKR">Sri Lankan Rupee (LKR)</option>
             <option value="USD">US Dollar (USD)</option>
@@ -322,13 +343,15 @@ export default function Settings() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="dateFormat" className="block text-sm font-medium text-gray-700 mb-2">
             Date Format
           </label>
           <select
+            id="dateFormat"
             value={settings.dateFormat}
             onChange={(e) => handleSettingChange('dateFormat', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select date format preference"
           >
             <option value="DD/MM/YYYY">DD/MM/YYYY</option>
             <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -351,23 +374,27 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="twoFactorAuth"
               type="checkbox"
               checked={settings.twoFactorAuth}
               onChange={(e) => handleSettingChange('twoFactorAuth', e.target.checked)}
               className="sr-only peer"
+              title="Toggle two-factor authentication"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="sessionTimeout" className="block text-sm font-medium text-gray-700 mb-2">
             Session Timeout (minutes)
           </label>
           <select
+            id="sessionTimeout"
             value={settings.sessionTimeout}
             onChange={(e) => handleSettingChange('sessionTimeout', parseInt(e.target.value))}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select session timeout duration"
           >
             <option value={15}>15 minutes</option>
             <option value={30}>30 minutes</option>
@@ -377,13 +404,15 @@ export default function Settings() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="passwordExpiry" className="block text-sm font-medium text-gray-700 mb-2">
             Password Expiry (days)
           </label>
           <select
+            id="passwordExpiry"
             value={settings.passwordExpiry}
             onChange={(e) => handleSettingChange('passwordExpiry', parseInt(e.target.value))}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select password expiry duration"
           >
             <option value={30}>30 days</option>
             <option value={60}>60 days</option>
@@ -415,23 +444,27 @@ export default function Settings() {
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
+              id="autoBackup"
               type="checkbox"
               checked={settings.autoBackup}
               onChange={(e) => handleSettingChange('autoBackup', e.target.checked)}
               className="sr-only peer"
+              title="Toggle automatic backup"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
           </label>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="dataRetention" className="block text-sm font-medium text-gray-700 mb-2">
             Data Retention Period (days)
           </label>
           <select
+            id="dataRetention"
             value={settings.dataRetention}
             onChange={(e) => handleSettingChange('dataRetention', parseInt(e.target.value))}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select data retention period"
           >
             <option value={90}>90 days</option>
             <option value={180}>180 days</option>
@@ -442,13 +475,15 @@ export default function Settings() {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="exportFormat" className="block text-sm font-medium text-gray-700 mb-2">
             Default Export Format
           </label>
           <select
+            id="exportFormat"
             value={settings.exportFormat}
             onChange={(e) => handleSettingChange('exportFormat', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            title="Select default export format"
           >
             <option value="xlsx">Excel (.xlsx)</option>
             <option value="csv">CSV (.csv)</option>
