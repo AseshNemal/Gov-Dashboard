@@ -1,4 +1,4 @@
-name: Deploy Backend to Render
+name: Deploy Backend to Railway
 
 on:
   push:
@@ -32,7 +32,8 @@ jobs:
         # Add your test commands here
         python -m pytest tests/ || echo "No tests found"
         
-    - name: Deploy to Render
-      run: |
-        # Render auto-deploys on push to main branch
-        echo "Deployment triggered automatically by Render"
+    - name: Deploy to Railway
+      uses: railwayapp/gh-action@v1
+      with:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        service: "sri-lanka-gov-api"
