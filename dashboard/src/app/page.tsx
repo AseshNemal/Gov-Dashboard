@@ -8,7 +8,6 @@ import {
   TrendingUp,
   BarChart3,
   Building2,
-  Users,
   Calendar,
   AlertTriangle,
 } from 'lucide-react';
@@ -20,7 +19,6 @@ import {
   ExpenseAreaChart,
 } from '@/components/Charts';
 import { dashboardApi } from '@/lib/api';
-import { formatCurrency } from '@/lib/utils';
 import type { ExpenseData, DashboardStats } from '@/types';
 
 export default function Dashboard() {
@@ -50,7 +48,6 @@ export default function Dashboard() {
 
   const getStatsFromData = (data: ExpenseData): DashboardStats => {
     const districts = Object.entries(data.districts);
-    const districtAmounts = districts.map(([, district]) => district.total);
     
     return {
       totalExpenses: data.total_expenses,
@@ -204,7 +201,7 @@ export default function Dashboard() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {statCards.map((stat, index) => (
+        {statCards.map((stat) => (
           <StatCard
             key={stat.title}
             {...stat}

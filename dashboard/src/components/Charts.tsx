@@ -119,32 +119,26 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
 }) => {
   const colors = generateChartColors(data.length);
 
-  const renderCustomLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-  }: any) => {
-    if (percent < 0.05) return null; // Don't show labels for small slices
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderCustomLabel = (entry: any) => {
+    if (entry.percent < 0.05) return null; // Don't show labels for small slices
     
     const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const radius = entry.innerRadius + (entry.outerRadius - entry.innerRadius) * 0.5;
+    const x = entry.cx + radius * Math.cos(-entry.midAngle * RADIAN);
+    const y = entry.cy + radius * Math.sin(-entry.midAngle * RADIAN);
 
     return (
       <text
         x={x}
         y={y}
         fill="white"
-        textAnchor={x > cx ? 'start' : 'end'}
+        textAnchor={x > entry.cx ? 'start' : 'end'}
         dominantBaseline="central"
         fontSize={12}
         fontWeight="bold"
       >
-        {`${(percent * 100).toFixed(0)}%`}
+        {`${(entry.percent * 100).toFixed(0)}%`}
       </text>
     );
   };

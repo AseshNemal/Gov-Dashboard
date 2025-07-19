@@ -18,10 +18,11 @@ import {
 import { SectorPieChart } from '@/components/Charts';
 import StatCard from '@/components/StatCard';
 import { dashboardApi } from '@/lib/api';
-import { formatCurrency, formatNumber } from '@/lib/utils';
+import { formatCurrency } from '@/lib/utils';
 import type { ExpenseData } from '@/types';
+import type { LucideIcon } from 'lucide-react';
 
-const sectorIcons: { [key: string]: any } = {
+const sectorIcons: { [key: string]: LucideIcon } = {
   Healthcare: Heart,
   Education: GraduationCap,
   Infrastructure: Building2,
@@ -61,7 +62,7 @@ export default function Sectors() {
     const sectorTotals: { [key: string]: number } = {};
     const sectorDistricts: { [key: string]: number } = {};
     
-    Object.entries(data.districts).forEach(([districtName, district]) => {
+    Object.entries(data.districts).forEach(([, district]) => {
       Object.entries(district.sectors).forEach(([sector, amount]) => {
         sectorTotals[sector] = (sectorTotals[sector] || 0) + amount;
         sectorDistricts[sector] = (sectorDistricts[sector] || 0) + 1;

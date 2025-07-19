@@ -144,7 +144,7 @@ interface StatsGridProps {
 const StatsGrid: React.FC<StatsGridProps> = ({ stats, loading = false }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-      {stats.map((stat, index) => (
+      {stats.map((stat) => (
         <StatCard
           key={stat.title}
           {...stat}

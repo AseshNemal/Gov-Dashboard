@@ -7,20 +7,14 @@ import {
   TrendingDown,
   Calendar,
   Download,
-  Filter,
   BarChart3,
 } from 'lucide-react';
-import {
-  DistrictBarChart,
-  SectorPieChart,
-  TrendLineChart,
-  ExpenseAreaChart,
-} from '@/components/Charts';
 import StatCard from '@/components/StatCard';
 import { dashboardApi } from '@/lib/api';
+import type { ExpenseData } from '@/types';
 
 export default function Analytics() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ExpenseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('30d');
 

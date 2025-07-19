@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import {
   Home,
   BarChart3,
-  PieChart,
   TrendingUp,
   MapPin,
   Building2,

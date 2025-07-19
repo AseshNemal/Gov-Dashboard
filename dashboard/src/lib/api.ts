@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ExpenseData, ApiResponse } from '@/types';
+import type { ExpenseData } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -48,19 +48,19 @@ export const dashboardApi = {
   },
 
   // Get expense summary
-  getSummary: async (): Promise<any> => {
+  getSummary: async () => {
     const response = await api.get('/api/summary');
     return response.data;
   },
 
   // Get districts data
-  getDistricts: async (): Promise<any> => {
+  getDistricts: async () => {
     const response = await api.get('/api/districts');
     return response.data;
   },
 
   // Get sectors data
-  getSectors: async (): Promise<any> => {
+  getSectors: async () => {
     const response = await api.get('/api/sectors');
     return response.data;
   },
