@@ -29,6 +29,28 @@ async def root():
         "status": "active"
     }
 
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint for deployment monitoring"""
+    try:
+        # Test database connection
+        from simulator import get_latest_data
+        data = get_latest_data()
+        db_status = "connected" if data else "no_data"
+        
+        return {
+            "status": "healthy",
+            "database": db_status,
+            "timestamp": "2025-07-19T12:00:00Z",
+            "version": "1.0.0"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": "2025-07-19T12:00:00Z"
+        }
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
@@ -43,12 +65,48 @@ async def health_check():
 async def get_latest_expenses():
     """Get latest expense data for all districts"""
     try:
-        data = get_latest_data()
-        return {
-            "success": True,
-            "data": data,
-            "count": len(data)
+        raw_data = get_latest_data()
+        if not raw_data:
+            raise HTTPException(status_code=404, detail="No data available")
+        
+        # Aggregate data into the expected format
+        districts = {}
+        total_expenses = 0
+        
+        for record in raw_data:
+            district_name = record['district']
+            district_total = record['total_expense']
+            total_expenses += district_total
+            
+            districts[district_name] = {
+                "total": district_total,
+                "sectors": record['sectors']
+            }
+        
+        # Calculate summary statistics
+        district_totals = [districts[d]['total'] for d in districts]
+        avg_per_district = total_expenses / len(districts) if districts else 0
+        highest_spending = max(districts.items(), key=lambda x: x[1]['total'])[0] if districts else ""
+        lowest_spending = min(districts.items(), key=lambda x: x[1]['total'])[0] if districts else ""
+        
+        # Use the first record's date and _id
+        first_record = raw_data[0]
+        
+        aggregated_data = {
+            "_id": first_record['_id'],
+            "date": first_record['date'],
+            "total_expenses": total_expenses,
+            "districts": districts,
+            "summary": {
+                "total_daily_expenses": total_expenses,
+                "total_districts": len(districts),
+                "avg_per_district": avg_per_district,
+                "highest_spending_district": highest_spending,
+                "lowest_spending_district": lowest_spending
+            }
         }
+        
+        return aggregated_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

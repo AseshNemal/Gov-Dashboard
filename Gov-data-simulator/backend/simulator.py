@@ -106,6 +106,9 @@ def get_latest_data():
     """Retrieve latest expense data from MongoDB"""
     try:
         latest_data = list(collection.find().sort("timestamp", -1).limit(len(districts)))
+        # Convert ObjectId to string for JSON serialization
+        for doc in latest_data:
+            doc['_id'] = str(doc['_id'])
         return latest_data
     except Exception as e:
         print(f"Error retrieving data: {e}")

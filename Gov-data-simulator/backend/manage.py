@@ -108,7 +108,8 @@ def start_api():
     """Start the FastAPI server"""
     print("🚀 Starting API server...")
     try:
-        subprocess.run([sys.executable, "api.py"], check=True)
+        api_path = os.path.join(os.path.dirname(__file__), "api.py")
+        subprocess.run([sys.executable, api_path], check=True)
     except KeyboardInterrupt:
         print("\n⏹️  API server stopped.")
     except Exception as e:
