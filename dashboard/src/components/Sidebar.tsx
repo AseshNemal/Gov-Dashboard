@@ -157,7 +157,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileMenuOpen, onMobileMenuClose }
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 left-0 z-50 w-64 bg-white lg:hidden"
+            className="fixed inset-y-0 left-0 z-50 w-64 bg-white lg:hidden shadow-xl"
           >
             {sidebarContent}
           </motion.div>

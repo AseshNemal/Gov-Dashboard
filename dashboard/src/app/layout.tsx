@@ -49,7 +49,7 @@ export default function RootLayout({
 
             {/* Page content */}
             <main className="flex-1 overflow-y-auto">
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 {children}
               </div>
             </main>

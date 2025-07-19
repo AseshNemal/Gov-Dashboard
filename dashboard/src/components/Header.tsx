@@ -24,10 +24,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isMobileMenuOpen }) => {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left section */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1 lg:flex-initial">
             <button
               onClick={onMenuClick}
-              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors flex-shrink-0"
+              aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -36,23 +37,28 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isMobileMenuOpen }) => {
               )}
             </button>
             
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-white font-bold text-sm">SL</span>
               </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900">
+              <div className="hidden sm:block min-w-0">
+                <h1 className="text-lg lg:text-xl font-bold text-gray-900 truncate">
                   Sri Lanka Government Dashboard
                 </h1>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs lg:text-sm text-gray-500 truncate">
                   Real-time expense monitoring
                 </p>
+              </div>
+              <div className="block sm:hidden min-w-0">
+                <h1 className="text-sm font-bold text-gray-900 truncate">
+                  Gov Dashboard
+                </h1>
               </div>
             </div>
           </div>
 
-          {/* Center section - Search */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
+          {/* Center section - Search (Desktop only) */}
+          <div className="hidden md:flex flex-1 max-w-md mx-4 lg:mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
@@ -64,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, isMobileMenuOpen }) => {
           </div>
 
           {/* Right section */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
             {/* Notifications */}
             <div className="relative">
               <button
