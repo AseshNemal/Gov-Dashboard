@@ -39,11 +39,11 @@ const ChartContainer: React.FC<ChartContainerProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 ${className}`}
+        className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 ${className}`}
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">{title}</h3>
         <div className="animate-pulse">
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-48 sm:h-64 bg-gray-200 rounded"></div>
         </div>
       </motion.div>
     );
@@ -53,9 +53,9 @@ const ChartContainer: React.FC<ChartContainerProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-xl shadow-sm border border-gray-200 p-6 ${className}`}
+      className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 ${className}`}
     >
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       {children}
     </motion.div>
   );
@@ -74,19 +74,21 @@ export const DistrictBarChart: React.FC<DistrictBarChartProps> = ({
 
   return (
     <ChartContainer title="Expenses by District" loading={loading}>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={250}>
+        <BarChart data={data} margin={{ top: 20, right: 10, left: 10, bottom: 60 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             angle={-45}
             textAnchor="end"
-            height={100}
+            height={80}
+            interval={0}
           />
           <YAxis
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             tickFormatter={(value) => formatCurrency(value)}
+            width={60}
           />
           <Tooltip
             formatter={(value: number) => [formatCurrency(value), 'Amount']}
@@ -95,6 +97,7 @@ export const DistrictBarChart: React.FC<DistrictBarChartProps> = ({
               backgroundColor: '#fff',
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
+              fontSize: '12px',
             }}
           />
           <Bar dataKey="value" radius={[4, 4, 0, 0]}>
@@ -121,7 +124,7 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderCustomLabel = (entry: any) => {
-    if (entry.percent < 0.05) return null; // Don't show labels for small slices
+    if (entry.percent < 0.08) return null; // Don't show labels for small slices on mobile
     
     const RADIAN = Math.PI / 180;
     const radius = entry.innerRadius + (entry.outerRadius - entry.innerRadius) * 0.5;
@@ -135,7 +138,7 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
         fill="white"
         textAnchor={x > entry.cx ? 'start' : 'end'}
         dominantBaseline="central"
-        fontSize={12}
+        fontSize={10}
         fontWeight="bold"
       >
         {`${(entry.percent * 100).toFixed(0)}%`}
@@ -145,7 +148,7 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
 
   return (
     <ChartContainer title="Expense Distribution by Sector" loading={loading}>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
             data={data}
@@ -153,7 +156,7 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
             cy="50%"
             labelLine={false}
             label={renderCustomLabel}
-            outerRadius={80}
+            outerRadius={60}
             fill="#8884d8"
             dataKey="value"
           >
@@ -167,9 +170,10 @@ export const SectorPieChart: React.FC<SectorPieChartProps> = ({
               backgroundColor: '#fff',
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
+              fontSize: '12px',
             }}
           />
-          <Legend />
+          <Legend wrapperStyle={{ fontSize: '12px' }} />
         </PieChart>
       </ResponsiveContainer>
     </ChartContainer>
@@ -187,17 +191,18 @@ export const TrendLineChart: React.FC<TrendLineChartProps> = ({
 }) => {
   return (
     <ChartContainer title="Expense Trends Over Time" loading={loading}>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={250}>
+        <LineChart data={data} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             tickFormatter={(value) => new Date(value).toLocaleDateString()}
           />
           <YAxis
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             tickFormatter={(value) => formatCurrency(value)}
+            width={60}
           />
           <Tooltip
             formatter={(value: number) => [formatCurrency(value), 'Amount']}
@@ -206,6 +211,7 @@ export const TrendLineChart: React.FC<TrendLineChartProps> = ({
               backgroundColor: '#fff',
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
+              fontSize: '12px',
             }}
           />
           <Line
@@ -213,8 +219,8 @@ export const TrendLineChart: React.FC<TrendLineChartProps> = ({
             dataKey="amount"
             stroke="#3B82F6"
             strokeWidth={2}
-            dot={{ r: 4, fill: '#3B82F6' }}
-            activeDot={{ r: 6, fill: '#1D4ED8' }}
+            dot={{ r: 3, fill: '#3B82F6' }}
+            activeDot={{ r: 5, fill: '#1D4ED8' }}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -233,8 +239,8 @@ export const ExpenseAreaChart: React.FC<ExpenseAreaChartProps> = ({
 }) => {
   return (
     <ChartContainer title="Daily Expenses vs Budget" loading={loading}>
-      <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={250}>
+        <AreaChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
           <defs>
             <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.8} />
@@ -247,12 +253,13 @@ export const ExpenseAreaChart: React.FC<ExpenseAreaChartProps> = ({
           </defs>
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             tickFormatter={(value) => new Date(value).toLocaleDateString()}
           />
           <YAxis
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
             tickFormatter={(value) => formatCurrency(value)}
+            width={60}
           />
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <Tooltip
@@ -265,6 +272,7 @@ export const ExpenseAreaChart: React.FC<ExpenseAreaChartProps> = ({
               backgroundColor: '#fff',
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
+              fontSize: '12px',
             }}
           />
           <Area

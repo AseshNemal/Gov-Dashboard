@@ -109,19 +109,23 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Error Loading Dashboard
-          </h3>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button
-            onClick={fetchDashboardData}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Try Again
-          </button>
+      <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center max-w-md mx-auto">
+              <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Error Loading Dashboard
+              </h3>
+              <p className="text-gray-600 mb-4 text-sm sm:text-base">{error}</p>
+              <button
+                onClick={fetchDashboardData}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -168,83 +172,85 @@ export default function Dashboard() {
   ] : [];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="mb-8">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Government Expense Dashboard
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Real-time monitoring of government expenses across Sri Lanka
-            </p>
-          </div>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={fetchDashboardData}
-              disabled={loading}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Refreshing...' : 'Refresh Data'}
-            </button>
-            <div className="text-sm text-gray-500">
-              Last updated: {data ? new Date(data.date).toLocaleString() : 'Never'}
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="mb-6 sm:mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          >
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Government Expense Dashboard
+              </h1>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                Real-time monitoring of government expenses across Sri Lanka
+              </p>
             </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <button
+                onClick={fetchDashboardData}
+                disabled={loading}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 text-sm sm:text-base"
+              >
+                {loading ? 'Refreshing...' : 'Refresh Data'}
+              </button>
+              <div className="text-xs sm:text-sm text-gray-500">
+                Last updated: {data ? new Date(data.date).toLocaleString() : 'Never'}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+          {statCards.map((stat) => (
+            <StatCard
+              key={stat.title}
+              {...stat}
+              loading={loading}
+            />
+          ))}
+        </div>
+
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+          <DistrictBarChart data={districtData} loading={loading} />
+          <SectorPieChart data={sectorData} loading={loading} />
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+          <TrendLineChart data={trendData} loading={loading} />
+          <ExpenseAreaChart data={trendData} loading={loading} />
+        </div>
+
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6"
+        >
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Quick Actions
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <button className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+              <Building2 className="h-5 w-5 text-blue-600 flex-shrink-0" />
+              <span className="font-medium text-blue-900">View Districts</span>
+            </button>
+            <button className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+              <BarChart3 className="h-5 w-5 text-green-600 flex-shrink-0" />
+              <span className="font-medium text-green-900">Generate Report</span>
+            </button>
+            <button className="flex items-center space-x-3 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+              <Calendar className="h-5 w-5 text-purple-600 flex-shrink-0" />
+              <span className="font-medium text-purple-900">Schedule Analysis</span>
+            </button>
           </div>
         </motion.div>
       </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {statCards.map((stat) => (
-          <StatCard
-            key={stat.title}
-            {...stat}
-            loading={loading}
-          />
-        ))}
-      </div>
-
-      {/* Charts Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <DistrictBarChart data={districtData} loading={loading} />
-        <SectorPieChart data={sectorData} loading={loading} />
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <TrendLineChart data={trendData} loading={loading} />
-        <ExpenseAreaChart data={trendData} loading={loading} />
-      </div>
-
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-      >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Quick Actions
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-            <Building2 className="h-5 w-5 text-blue-600" />
-            <span className="font-medium text-blue-900">View Districts</span>
-          </button>
-          <button className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-            <BarChart3 className="h-5 w-5 text-green-600" />
-            <span className="font-medium text-green-900">Generate Report</span>
-          </button>
-          <button className="flex items-center space-x-3 p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-            <Calendar className="h-5 w-5 text-purple-600" />
-            <span className="font-medium text-purple-900">Schedule Analysis</span>
-          </button>
-        </div>
-      </motion.div>
     </div>
   );
 }
