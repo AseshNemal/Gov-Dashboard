@@ -22,6 +22,14 @@ export function formatPercentage(value: number): string {
   return `${value.toFixed(1)}%`;
 }
 
+export function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(date);
+}
+
 export function getRandomColor(): string {
   const colors = [
     '#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00',
