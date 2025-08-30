@@ -1,1 +1,0 @@
-This repository may help in finding government data and making it accessible to people.
